@@ -2,11 +2,73 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Title of the document</title>
+<title>Text Censored using Javascript</title>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
 </head>
 
 <body>
-Content of the document......
+  <h2>List of Text will be Censored during type at Textarea</h2>
+  <p>hello , the , me</p>
+  <br/>
+  <textarea id="censor"></textarea>
+<script type="text/javascript" defer>
+var words_censored=["hello","the","me"];
+var chars_str=[];
+var j=0;
+   var charStr = "";
+   var tmp_char="";
+   document.getElementById("censor").onkeydown = function(evt) {
+    evt = evt || window.event;
+    var charCode = evt.keyCode || evt.which;
+	
+    if(charCode== 8 || charCode==46){
+	  j--;
+	  if(j<0){
+	    j=0;
+	  }
+	  delete chars_str[j];
+	
+	}
+   
+   };
+ document.getElementById("censor").onkeypress = function(evt) {
+    evt = evt || window.event;
+    var charCode = evt.keyCode || evt.which;
+	
+    if(charCode== 8 || charCode==46){
+	  j--;
+	  if(j<0){
+	    j=0;
+	  }
+	}
+tmp_char=String.fromCharCode(charCode);
+	chars_str[j]=tmp_char;
+	j++;
+   charStr += tmp_char;
+   console.log(charStr);
+   if(charCode==32 || charCode==13){
+ 
+ 	   var output = "";
+for (var i = 0; i<chars_str.length; i++){
+    output += chars_str[i];
+}
+     for (i = 0; i < words_censored.length; i++) { 
+	 
+           var re = new RegExp(words_censored[i],"igm");
+		    output=output.replace(re, '-Censored-');
+			
+			
+       }
+	   
+
+	   this.value=output;
+   }
+};
+ 
+</script>
 </body>
 
 </html>
